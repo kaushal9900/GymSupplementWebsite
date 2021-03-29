@@ -1,25 +1,27 @@
 
 import React, { useState } from "react";
-import { Menu } from "antd";
+import { Menu,Badge } from "antd";
 import {
-  AppstoreOutlined,
-  SettingOutlined,
+  AppstoreOutlined, 
   UserOutlined,
   UserAddOutlined,
   LogoutOutlined,
+  ShopOutlined,
+  ShoppingCartOutlined,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import firebase from "firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-
+import Search from "../forms/Search";
+//import {Navbar,Nav,FormControl,Button,Form,NavDropdown} from 'react-bootstrap'
+import "./header.css";
 const { SubMenu, Item } = Menu;
-
 const Header = () => {
   const [current, setCurrent] = useState("home");
 
   let dispatch = useDispatch();
-  let { user } = useSelector((state) => ({ ...state }));
+  let { user,cart } = useSelector((state) => ({ ...state }));
 
   let history = useHistory();
 
@@ -37,33 +39,45 @@ const Header = () => {
     history.push("/login");
   };
 
-  return (
-    
-    <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
-      <Item key="home" icon={<AppstoreOutlined />}>
-        <Link to="/">Home</Link>
+  return (    
+    <Menu style={{height:65}} className="customClass" theme="dark" onClick={handleClick} selectedKeys={[current]} mode="horizontal">
+          
+      <Item className="customclass mt-2" key="home" icon={<AppstoreOutlined />}>
+        <Link className="dark" to="/">Home</Link>
       </Item>
-
+      <Item key="shop" className="customclass mt-2" icon={<ShopOutlined />}>
+        <Link className="link back" to="/shop">Shop</Link>
+      </Item>
+      <Item key="cart" className="customclass float-right ml-2 mt-2 mr-3" icon={<ShoppingCartOutlined />}>
+        <Link className="link back" to="/cart">
+          <Badge count={cart.length} offset={[9,0]}>
+            Cart
+          </Badge>
+        </Link>
+      </Item>
+      
       {!user && (
-        <Item key="register" icon={<UserAddOutlined />} className="float-right">
+        <Item key="register" icon={<UserAddOutlined />} className="float-right mt-2">
           <Link to="/register">Register</Link>
         </Item>
       )}
 
       {!user && (
-        <Item key="login" icon={<UserOutlined />} className="float-right">
+        <Item className="customclass" key="login" icon={<UserOutlined />} className="float-right mt-2">
           <Link to="/login">Login</Link>
         </Item>
       )}
-
+      
       {user && (
         <SubMenu
-          icon={<SettingOutlined />}
+          icon={<UserOutlined />}
           title={user.email && user.email.split("@")[0]}
-          className="float-right"
+          className="float-right customclass mt-2"
+          
         >
+         
           {user && user.role === "subscriber" && (
-            <Item>
+            <Item className="customclass">
               <Link to="/user/history">Dashboard</Link>
             </Item>
           )}
@@ -76,10 +90,15 @@ const Header = () => {
 
           <Item icon={<LogoutOutlined />} onClick={logout}>
             Logout
-          </Item>
+          </Item>         
         </SubMenu>
+        
       )}
+      <Item  className="cus ml-2 mt-3 mb-1 float-right " style={{color:"white" ,border: '1px solid grey',borderRadius: '30px'}}>
+      <Search className="ant-input"/>
+      </Item>      
     </Menu>
+    
   );
 };
 

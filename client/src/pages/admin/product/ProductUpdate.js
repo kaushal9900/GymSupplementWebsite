@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import AdminNav from "../../../components/nav/AdminNav";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
-import {createProduct} from "../../../functions/product";
-import { LoadingOutlined,EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { LoadingOutlined } from "@ant-design/icons";
 import ProductUpdateForm from "../../../components/forms/ProductUpdateForm"
 import {    
     getCategories,getCategorySubs,   
@@ -14,8 +13,7 @@ import {getProduct,updateProduct} from "../../../functions/product";
 
 const initialState = {
     title:'',
-    description:'',
-    
+    description:'',    
     price:'',
     category:'',
     subs:[],

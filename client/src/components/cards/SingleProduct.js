@@ -1,38 +1,106 @@
 import React,{useState} from "react";
 import { Card ,Select,Button} from "antd";
-import { Link } from "react-router-dom";
-import { HeartOutlined, ShoppingCartOutlined,PlusOutlined,HeartTwoTone,HeartFilled} from "@ant-design/icons";
+import { PlusOutlined} from "@ant-design/icons";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "./ProductCard.scss";
 import StarRating from "react-star-ratings";
 import { showAverage } from "../../functions/rating";
 import RatingModal from "../modal/RatingModal";
+import _ from "lodash";
+import {useSelector,useDispatch} from "react-redux";
 
-const { Meta } = Card;
 
 const SingleProduct = ({ product ,onStarClick,star }) => {
   const {_id, title, description, flavor,images, slug , weight,quantity,price} = product;
   const [count,setCount] = useState(1);
-
+  const [fla,setFla] = useState("");
+  const [wei,setWei] = useState("");
+  const dispatch = useDispatch();
+  const {user,cart} = useSelector((state) => ({...state}));
   const handleIncrement = () => {
       setCount(prevCount => prevCount >= quantity ? prevCount : prevCount+1);
   };
   const handleDecrement = () => {
       setCount(prevCount => prevCount <= 1 ? prevCount : prevCount-1);
   }
+  const handleWeight = (e) => {
+    setWei(e);
+  }
+  const handleFlavor = (e) => {
+    setFla(e);
+    
+  }
+  const handleAddToCart = () => {
+    // create cart array
+    if(fla==='' || wei==='') {
+      window.alert("Please Select Weight and Flavor");
+      return;
+    }
+    let cart = [];
+    if (typeof window !== "undefined") {
+      // if cart is in local storage GET it
+      if (localStorage.getItem("cart")) {
+        cart = JSON.parse(localStorage.getItem("cart"));
+      }
+      // push new product to cart
+      cart.push({
+        ...product,
+        count: count,
+        flavor1:fla,
+        weight1:wei,        
+      });
+      // remove duplicates
+      let unique = _.uniqWith(cart, _.isEqual);
+      // save to local storage
+      // console.log('unique', unique)
+      localStorage.setItem("cart", JSON.stringify(unique));   
+      
+
+      // add to reeux state
+      dispatch({
+        type: "ADD_TO_CART",
+        payload: unique,
+      });
+    }
+  };
+  // const handleAddToCart = () => {
+  //   let cart = [];
+    // if(fla==='' || wei==='') {
+    //   window.alert("Please Select Weight and Flavor");
+    //   return;
+    // }
+  //   if(typeof window != "undefined") {
+  //     if(localStorage.getItem("cart")) {
+  //       cart = JSON.parse(JSON.stringify(localStorage.getItem("cart")));
+  //     }
+  //     cart.push({
+  //       ...product,
+  //       count: 1,
+  //     });
+
+  //     let unique = _.uniqWith(cart,_.isEqual);    
+  //     localStorage.setItem("cart",unique);
+
+  //     //add to redux store
+  //     dispatch({
+  //       type:"ADD_TO_CART",
+  //       payload:unique,
+  //     });
+  //   }
+  // };
 
   return (
     <> 
 
-      <div className="col-md-5" >
+      <div className="col-md-5" style={{minWidth:441}} >
         <Carousel style={{height:700}} dynamicHeight={true} showArrows={true} autoPlay infiniteLoop>
           {images && images.map((i) => <img  src={i.url} key={i.public_id} />)}
         </Carousel>       
            
       </div>
 
-      <div className="col-md-4">
+      <div className="col-md-4" style={{minWidth:378}}>
         
         <h1 style={{fontSize:18,fontFamily:'Montserrat',fontStyle:"bold"}}>{title}</h1>
           
@@ -66,7 +134,7 @@ const SingleProduct = ({ product ,onStarClick,star }) => {
         </div>
       </div>
       
-      <div className="col-md-3">
+      <div className="col-md-3" style={{minWidth:270}}>
       <Card hoverable="true" bordered="true">
           <h6>Weights 
           </h6>          
@@ -74,10 +142,12 @@ const SingleProduct = ({ product ,onStarClick,star }) => {
           <Select
           name="weight"
           style={{ width: 120 }}
+          onChange={handleWeight}
+          
           >
               
               {weight ? weight.map((c) => (
-                  <option key={c} value={c}>
+                  <option onClick={handleWeight} key={c} value={c}>
                       {c}
                   </option>
               )) : ''}
@@ -85,10 +155,12 @@ const SingleProduct = ({ product ,onStarClick,star }) => {
           <br />
           <h6>Flavors </h6>
           <Select
-          name="flavor"
-          style={{ width: 180 }}>              
+          name="flavor"          
+          onChange={handleFlavor}
+          style={{ width: 180 }}
+          >              
               {flavor ? flavor.map((k) => (
-                  <option key={k} value={k}>
+                  <option  key={k} value={k}>
                       {k}
                   </option>
               )) : ''}
@@ -104,7 +176,7 @@ const SingleProduct = ({ product ,onStarClick,star }) => {
         <button className="quantity-input__modifier quantity-input__modifier--right" onClick={handleIncrement}>
           <PlusOutlined />
         </button>    
-        <Button shape="round" danger="true" type="primary" style={{marginLeft:15}}>Add To Cart</Button>      
+        <Button shape="round" onClick={handleAddToCart} type="primary" style={{marginLeft:15}}>Add To Cart</Button>      
       </div> 
       <div className="text-danger mt-5">
       <RatingModal>

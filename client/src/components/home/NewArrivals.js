@@ -13,7 +13,7 @@ const NewArrivals = () => {
   }, [])
   const loadAllProducts = () => {
     setLoading(true);
-    getProducts('createdAt','desc',3)
+    getProducts('createdAt','desc',4)
     .then(res => {
       setProducts(res.data);
       setLoading(false);
@@ -23,9 +23,9 @@ const NewArrivals = () => {
   return (
     <>
     <div className="container">
-      {loading ? <LoadingCard count={3}/> :  <div className="row">
+      {loading ? <LoadingCard count={4}/> :  <div className="row">
         {products.map((product) => (
-          <div className="col-md-4" key={product._id}>
+          <div className="col-md-3" key={product._id}>
               <ProductCard product={product} />
           </div>
         ))}

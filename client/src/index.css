@@ -8,3 +8,7 @@
 .m {
     margin-left: 9px;
 }
+
+.pointer {
+    cursor: pointer;
+}
