@@ -176,7 +176,7 @@ const SingleProduct = ({ product ,onStarClick,star }) => {
         <button className="quantity-input__modifier quantity-input__modifier--right" onClick={handleIncrement}>
           <PlusOutlined />
         </button>    
-        <Button shape="round" onClick={handleAddToCart} type="primary" style={{marginLeft:15}}>Add To Cart</Button>      
+        <Button shape="round" onClick={handleAddToCart} type="primary" style={{marginLeft:15}} disabled={product.quantity < 1}>{product.quantity < 1 ? "Out of stock" : "Add To Cart"}</Button>      
       </div> 
       <div className="text-danger mt-5">
       <RatingModal>
