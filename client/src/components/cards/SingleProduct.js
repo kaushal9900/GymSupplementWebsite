@@ -1,6 +1,6 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import { Card ,Select,Button} from "antd";
-import { PlusOutlined} from "@ant-design/icons";
+import { PlusOutlined,HeartOutlined,HeartFilled} from "@ant-design/icons";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "./ProductCard.scss";
@@ -9,15 +9,20 @@ import { showAverage } from "../../functions/rating";
 import RatingModal from "../modal/RatingModal";
 import _ from "lodash";
 import {useSelector,useDispatch} from "react-redux";
+import {addToWishlist,removeWishlist,getWishlist} from "../../functions/user"
+import { toast } from "react-toastify";
 
 
 const SingleProduct = ({ product ,onStarClick,star }) => {
+  
+  const {user,cart} = useSelector((state) => ({...state}));
   const {_id, title, description, flavor,images, slug , weight,quantity,price} = product;
   const [count,setCount] = useState(1);
   const [fla,setFla] = useState("");
   const [wei,setWei] = useState("");
+  const [wishList,setWishList] = useState(false);  
   const dispatch = useDispatch();
-  const {user,cart} = useSelector((state) => ({...state}));
+  
   const handleIncrement = () => {
       setCount(prevCount => prevCount >= quantity ? prevCount : prevCount+1);
   };
@@ -31,6 +36,11 @@ const SingleProduct = ({ product ,onStarClick,star }) => {
     setFla(e);
     
   }
+
+ 
+
+  
+ 
   const handleAddToCart = () => {
     // create cart array
     if(fla==='' || wei==='') {
@@ -64,35 +74,25 @@ const SingleProduct = ({ product ,onStarClick,star }) => {
       });
     }
   };
-  // const handleAddToCart = () => {
-  //   let cart = [];
-    // if(fla==='' || wei==='') {
-    //   window.alert("Please Select Weight and Flavor");
-    //   return;
-    // }
-  //   if(typeof window != "undefined") {
-  //     if(localStorage.getItem("cart")) {
-  //       cart = JSON.parse(JSON.stringify(localStorage.getItem("cart")));
-  //     }
-  //     cart.push({
-  //       ...product,
-  //       count: 1,
-  //     });
-
-  //     let unique = _.uniqWith(cart,_.isEqual);    
-  //     localStorage.setItem("cart",unique);
-
-  //     //add to redux store
-  //     dispatch({
-  //       type:"ADD_TO_CART",
-  //       payload:unique,
-  //     });
-  //   }
-  // };
+ 
+  const handleAddToWishList = (e) => {
+    e.preventDefault();
+    addToWishlist(product._id,user.token).then((res)=> {
+      setWishList(true);
+      toast.success("Added to wishlist");
+    });
+  }
+  const removeFromWishList = (e) => {
+    e.preventDefault();    
+    removeWishlist(product._id, user.token).then((res) => {
+      setWishList(false);
+      toast.error("Removed from wishlist");
+    });
+  }
 
   return (
     <> 
-
+      
       <div className="col-md-5" style={{minWidth:441}} >
         <Carousel style={{height:700}} dynamicHeight={true} showArrows={true} autoPlay infiniteLoop>
           {images && images.map((i) => <img  src={i.url} key={i.public_id} />)}
@@ -152,6 +152,9 @@ const SingleProduct = ({ product ,onStarClick,star }) => {
                   </option>
               )) : ''}
           </Select>
+          
+          {!wishList ? <HeartOutlined  onClick={handleAddToWishList} className="float-right" style={{ fontSize: '35px', color: 'red' }} />
+          :<HeartFilled onClick={removeFromWishList} className="float-right" style={{ fontSize: '35px', color: 'red' }}/>}
           <br />
           <h6>Flavors </h6>
           <Select
