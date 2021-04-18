@@ -6,6 +6,7 @@ import Carousel from 'react-bootstrap/Carousel'
 import {Card} from 'antd'
 import {Button} from 'react-bootstrap'
 import Blogs from "../components/home/Blogs";
+import Insta from "../components/insta/Insta";
 const {Meta} = Card;
 //import { Button,Navbar,Nav,NavDropdown,Form,FormControl } from 'react-bootstrap'
 //import {Card} from 'react-bootstrap'
@@ -53,21 +54,21 @@ const Home = () => {
   
 </Carousel>
     
-    <div className="text-center p-3 mt-5 display-4 jumbotron">
-      New Arrivals
+    <div className="text-center p-3 mt-5 display-4 jumbotron" style={{background:"white"}}>
+    <h4 style={{fontFamily:"Blender Pro",fontSize:"38px",fontWeight:"700",lineHeight:"40px",letterSpacing:"-.5px"}}>NEW ARRIVALS</h4>
     </div>
     <NewArrivals/>
     <br />
-    <div className="text-center p-3 mt-5 display-4 jumbotron">
-      Best Sellers
+    <div className="text-center p-3 mt-5 display-4 jumbotron" style={{background:"white"}}>
+      <h4 style={{fontFamily:"Blender Pro",fontSize:"38px",fontWeight:"700",lineHeight:"40px",letterSpacing:"-.5px"}}>BEST SELLERS</h4>
     </div>    
      <BestSellers />
     
-    <div className="text-center p-3 mt-5 display-6 jumbotron">
-      Blogs
-    </div>
+     <div className="text-center p-3 mt-5 display-4 jumbotron" style={{background:"white"}}>
+      <h4 style={{fontFamily:"Blender Pro",fontSize:"38px",fontWeight:"700",lineHeight:"40px",letterSpacing:"-.5px"}}>BLOGS</h4>
+    </div> 
     <Blogs />
-        
+    <Insta/>
     </>
   );
 }
