@@ -1,5 +1,6 @@
 
 import React, { useState } from "react";
+import {IoAccessibility} from "react-icons/io5";
 import { Menu,Badge } from "antd";
 import {
   AppstoreOutlined, 
@@ -42,11 +43,16 @@ const Header = () => {
   return (    
     <Menu style={{height:65}} className="customClass" theme="dark" onClick={handleClick} selectedKeys={[current]} mode="horizontal">
           
-      <Item className="customclass mt-2" key="home" icon={<AppstoreOutlined />}>
-        <Link className="dark" to="/">Home</Link>
+      <Item className="cus" key="home">
+      <Link className="dark" to="/"><img src="https://res.cloudinary.com/gymproject/image/upload/v1619157762/42845507_271181050175176_6022972753898897408_o_sy7tkz.jpg" style={{height:"40px",width:"180px",border:0}}/>
+        </Link>
       </Item>
+      
       <Item key="shop" className="customclass mt-2" icon={<ShopOutlined />}>
         <Link className="link back" to="/shop">Shop</Link>
+      </Item>
+      <Item key="shop" className="customclass mt-2"  icon={<IoAccessibility />}>
+        <Link className="link back" to="/BMI">BMI</Link>
       </Item>
       <Item key="cart" className="customclass float-right ml-2 mt-2 mr-3" icon={<ShoppingCartOutlined />}>
         <Link className="link back" to="/cart">
@@ -57,13 +63,13 @@ const Header = () => {
       </Item>
       
       {!user && (
-        <Item key="register" icon={<UserAddOutlined />} className="float-right mt-2">
+        <Item key="register" icon={<UserAddOutlined />} className="customclass float-right ml-1 mt-2">
           <Link to="/register">Register</Link>
         </Item>
       )}
 
       {!user && (
-        <Item className="customclass" key="login" icon={<UserOutlined />} className="float-right mt-2">
+        <Item  key="login" icon={<UserOutlined />} className="customclass float-right ml-1 mt-2">
           <Link to="/login">Login</Link>
         </Item>
       )}
@@ -84,7 +90,7 @@ const Header = () => {
 
           {user && user.role === "admin" && (
             <Item>
-              <Link to="/admin/dashboard">Dashboard</Link>
+              <Link className="customclass" to="/admin/dashboard">Dashboard</Link>
             </Item>
           )}
 

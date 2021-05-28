@@ -2,54 +2,56 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
-import { IconContext } from 'react-icons';
+import { IconContext, icons } from 'react-icons';
 import * as FaIcons from 'react-icons/fa';
 import * as AiIcons from 'react-icons/ai';
 import * as IoIcons from 'react-icons/io';
-
+import {BsFillBagFill,BsLockFill} from 'react-icons/bs';
+import {AiFillCopyrightCircle} from 'react-icons/ai';
 const AdminNav = () => (
-  <IconContext.Provider value={{ color: '#fff' }}>   
+  <IconContext.Provider value={{ color: 'black' }}>   
   <nav>
-    <ul className="nav flex-column nav-menu-items" style={{background:"#222b3d"}}>
-      <li className="nav-item" style={{fontSize:"20px"}}>      
-        <Link to="/admin/dashboard" className="nav-link" style={{border:"1px solid white",color:"white"}}>
-        <AiIcons.AiFillHome style={{color:"white",marginRight:"8px"}}/>Dashboard
+    <ul className="nav flex-column nav-menu-items">
+      <li className="nav-item" style={{fontSize:"16px"}}>      
+        <Link to="/admin/dashboard" className="nav-link">
+        <AiIcons.AiFillHome style={{color:"grey",marginRight:"2px"}}/>Dashboard
         </Link>
       </li>
 
-      <li className="nav-item" style={{fontSize:"20px"}}>
+      <li className="nav-item" style={{fontSize:"16px"}}>
         <Link to="/admin/product" className="nav-link">
-          Product
+        <BsFillBagFill style={{color:"grey",marginRight:"2px"}}/> Product
         </Link>
       </li>
 
-      <li className="nav-item" style={{fontSize:"20px"}}>
+      <li className="nav-item" style={{fontSize:"16px"}}>
         <Link to="/admin/products" className="nav-link">
-          Products
+        <BsFillBagFill style={{color:"grey",marginRight:"2px"}}/> Products
         </Link>
       </li>
 
-      <li className="nav-item" style={{fontSize:"20px"}}>
+      <li className="nav-item" style={{fontSize:"16px"}}>
         <Link to="/admin/category" className="nav-link">
-          Category
+        <BsFillBagFill style={{color:"grey",marginRight:"2px"}}/> Category
         </Link>
       </li>
 
-      <li className="nav-item" style={{fontSize:"20px"}}>
+      <li className="nav-item" style={{fontSize:"16px"}}>
         <Link to="/admin/sub" className="nav-link">
-          Sub Category
+        <BsFillBagFill style={{color:"grey",marginRight:"2px"}}/>Sub Category
         </Link>
       </li>
 
-      <li className="nav-item" style={{fontSize:"20px"}}>
+      <li className="nav-item" style={{fontSize:"16px"}}>
         <Link to="/admin/coupon" className="nav-link">
-          Coupon
+        <AiFillCopyrightCircle style={{color:"grey",marginRight:"2px"}}/>Coupon
         </Link>
       </li>
 
-      <li className="nav-item" style={{fontSize:"20px"}}>
+      <li className="nav-item" style={{fontSize:"16px"}}>
         <Link to="/user/password" className="nav-link">
-          Password
+        
+          <BsLockFill style={{color:"grey",marginRight:"2px"}}/>Password
         </Link>
       </li>
     </ul>

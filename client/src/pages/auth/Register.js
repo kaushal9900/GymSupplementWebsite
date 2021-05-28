@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { auth } from "../../firebase";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
-
+import {userExist} from "../../functions/auth";
 const Register = ({ history }) => {
   const [email, setEmail] = useState("");
 
@@ -36,13 +36,19 @@ const Register = ({ history }) => {
   // });
 
     
-      
-     
-    await auth.sendSignInLinkToEmail(email, config);
-    toast.success(
-      `Email is sent to ${email}. Click the link to complete your registration.`
-    );
-    window.localStorage.setItem("emailForRegistration", email);
+    const resp = await userExist(email);
+    
+    if(resp) {     
+      toast.error(`User With Email ${email} Already Exist!`);
+      return;
+    }
+      await auth.sendSignInLinkToEmail(email, config);
+      toast.success(
+        `Email is sent to ${email}. Click the link to complete your registration.`
+      );
+      window.localStorage.setItem("emailForRegistration", email);
+    
+   
     
     
     // save user email in local storage

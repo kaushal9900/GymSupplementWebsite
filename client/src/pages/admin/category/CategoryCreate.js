@@ -19,7 +19,7 @@ const CategoryCreate = () => {
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
   const [keyword,setKeyword] = useState("");
-
+  
   useEffect(() => {
     loadCategories();
   }, []);

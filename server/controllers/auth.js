@@ -28,3 +28,15 @@ exports.currentUser = async (req, res) => {
     res.json(user);
   });
 };
+
+exports.checkUserExist = async (req,res) => {
+  
+  let user = await User.findOne({email:req.params.slug}).exec();
+  
+  res.json(user);
+  // if(user) {    
+  //   res.json({ok:"true"});
+  // }else {
+  //   res.status(401).json("No user exist");
+  // }
+}

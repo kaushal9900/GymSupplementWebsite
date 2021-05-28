@@ -35,3 +35,9 @@ export const currentAdmin = async (authtoken) => {
     }
   );
 };
+
+export const userExist = async (userName) => {
+  const resBack = await axios.get(`${process.env.REACT_APP_API}/checkUserExist/${userName}`);
+  
+  return resBack.data === null ? false : true;
+}

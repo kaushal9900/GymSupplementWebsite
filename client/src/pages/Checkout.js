@@ -3,6 +3,7 @@ import {useSelector,useDispatch} from "react-redux";
 import {createOrder,getUserCart,emptyUserCart,saveUserAddress,applyCoupon} from "../functions/user";
 import {toast} from "react-toastify";
 import ReactQuill from "react-quill";
+import validator from 'validator'
 import "react-quill/dist/quill.snow.css";
 const Checkout = ({ history }) => {
     const [products,setProducts] = useState([]);
@@ -20,10 +21,16 @@ const Checkout = ({ history }) => {
         .then((res) => {
             setProducts(res.data.products);
             setTotal(res.data.cartTotal);
-            console.log(user.token);
+            
         });
     },[]);
   const saveAddressToDb = () => {
+     
+    if(validator.trim(address).length===0) {
+      toast.error("Please Fill Address");
+      
+      return;
+    }
     saveUserAddress(user.token, address).then((res) => {
       if (res.data.ok) {
         setAddressSaved(true); 
@@ -75,7 +82,7 @@ const Checkout = ({ history }) => {
   };
   const showAddress = () => 
     <>
-        <ReactQuill theme="snow" value={address} onChange={setAddress} />
+        <input type="text" className="form-control" onChange={(e) => setAddress(e.target.value)} />
         
     </>
   
@@ -131,7 +138,7 @@ const Checkout = ({ history }) => {
         <p>Cart Total: ₹{total}</p>
         {totalAfterDiscount > 0 && (
           <p className="bg-success p-2">
-            Discount Applied: Total Payable: ${totalAfterDiscount}
+            Discount Applied: Total Payable: ₹{totalAfterDiscount}
           </p>
         )}
 

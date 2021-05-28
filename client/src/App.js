@@ -9,6 +9,10 @@ import { LoadingOutlined } from "@ant-design/icons";
 import blogone from "./components/blogs/blogone";
 import blogtwo from "./components/blogs/blogtwo";
 import blogthree from "./components/blogs/blogthree";
+import BMICalculator from "./components/bmi/BMICalculator";
+import About from "./components/extra/About";
+import Team from "./components/extra/Team";
+import Customer from "./components/extra/Customer";
 const Footer =lazy(() => import("./components/footer/Footer"));
 const Login = lazy(() => import("./pages/auth/Login"));
 const Register = lazy(() => import("./pages/auth/Register"));
@@ -118,6 +122,10 @@ const App = () => {
         <Route exact path="/blogone" component={blogone} />
         <Route exact path="/blogtwo" component={blogtwo} />
         <Route exact path="/blogthree" component={blogthree} />
+        <Route exact path="/bmi" component={BMICalculator} />
+        <Route exact path="/team" component={Team} />
+        <Route exact path="/Customer" component={Customer} />
+        <Route exact path="/About" component={About} />
       </Switch>
       <Footer />
     </Suspense>

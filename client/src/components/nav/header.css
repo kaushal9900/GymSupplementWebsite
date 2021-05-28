@@ -17,10 +17,10 @@
 
  
   .ant-menu.ant-menu-dark .ant-menu-item-selected.cus {
-    background-color:#515151; /*Overriden property*/
+    background-color:#222b3d; /*Overriden property*/
   }
   .ant-menu-dark.ant-menu-horizontal > .ant-menu-item:hover.cus {
-    background-color: #515151; 
+    background-color: #222b3d; 
   }
 
   
